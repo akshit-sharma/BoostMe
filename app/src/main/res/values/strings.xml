@@ -2,4 +2,10 @@
     <string name="app_name">BoostMe</string>
     <string name="join">Join</string>
     <string name="initiate">Initiate</string>
+
+    <string name="title_activity_local_songs_playlist">LocalSongsPlaylist</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="title_activity_now_playing">NowPlayingActivity</string>
 </resources>

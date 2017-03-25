@@ -15,6 +15,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LocalSongsPlaylistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_local_songs_playlist"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".NowPlayingActivity"
+            android:label="@string/title_activity_now_playing"
+            android:parentActivityName=".LocalSongsPlaylistActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="xyz.akshit.boostme.LocalSongsPlaylistActivity" />
+        </activity>
     </application>
 
 </manifest>
