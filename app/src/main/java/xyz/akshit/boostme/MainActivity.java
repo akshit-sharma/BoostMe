@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
                 // TODO
                 //calls QR scanner
                 Snackbar.make(rootView, "Goto scan QR here", Snackbar.LENGTH_SHORT).show();
+                //Show scanner here
+                
             }
         });
 

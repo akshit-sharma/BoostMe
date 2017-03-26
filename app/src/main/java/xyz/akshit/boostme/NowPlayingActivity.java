@@ -1,5 +1,6 @@
 package xyz.akshit.boostme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -40,7 +41,10 @@ public class NowPlayingActivity extends AppCompatActivity implements SharedMusic
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(rootView, "Show QR to scan here", Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(rootView, "Show QR to scan here", Snackbar.LENGTH_SHORT).show();
+                //Show QR here
+                Intent intent = new Intent(getApplicationContext(), QRCodeGenerator.class);
+                startActivity(intent);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
