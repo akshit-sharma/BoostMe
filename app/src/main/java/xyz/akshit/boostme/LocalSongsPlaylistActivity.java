@@ -1,7 +1,11 @@
 package xyz.akshit.boostme;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +34,39 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_local_songs_playlist);
+
+        ContentResolver musicResolver = getContentResolver();
+        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
+        if(musicCursor!=null && musicCursor.moveToFirst()){
+
+            //get columns
+            int titleColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media.TITLE);
+            int idColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media._ID);
+            int artistColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media.ARTIST);
+            int urlColomn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Radio);
+            //add songs to list
+//            int thumbnail =  musicCursor.getColumnIndex(android.provider.MediaStore.Images.Thumbnails);
+            do {
+                long thisId = musicCursor.getLong(idColumn);
+                String id  =   thisId+"";
+                String thisTitle = musicCursor.getString(titleColumn);
+                String thisArtist = musicCursor.getString(artistColumn);
+//                songList.add(new Song(thisId, thisTitle, thisArtist));
+//                Log.d("who is ","id"+ thisId+" this Title " + thisTitle);
+                DummyContent dummyContent = new DummyContent();
+                dummyContent.addItem(new DummyContent.DummyItem(id,thisTitle,thisArtist));
+
+
+            }
+            while (musicCursor.moveToNext());
+        }
+
+
+
 
         rootView = (View) findViewById(R.id.activity_local_songs_playlist);
         localSongsFragmentHolder = (View) findViewById(R.id.fullscreen_content_placeholder);
