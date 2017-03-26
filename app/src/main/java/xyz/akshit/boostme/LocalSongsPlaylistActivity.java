@@ -47,7 +47,7 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
                     (android.provider.MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.ARTIST);
-            int urlColomn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Radio);
+
             //add songs to list
 //            int thumbnail =  musicCursor.getColumnIndex(android.provider.MediaStore.Images.Thumbnails);
             do {
@@ -55,7 +55,10 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
                 String id  =   thisId+"";
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-//                songList.add(new Song(thisId, thisTitle, thisArtist));
+                String urlColomn = MediaStore.Audio.Media.getContentUri(musicCursor.getString(titleColumn)).toString();
+                Log.d("localSongs",urlColomn);
+//
+//       songList.add(new Song(thisId, thisTitle, thisArtist));
 //                Log.d("who is ","id"+ thisId+" this Title " + thisTitle);
                 DummyContent dummyContent = new DummyContent();
                 dummyContent.addItem(new DummyContent.DummyItem(id,thisTitle,thisArtist));
