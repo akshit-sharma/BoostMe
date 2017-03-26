@@ -1,7 +1,5 @@
 package xyz.akshit.boostme;
-
-
-        import android.Manifest;
+import android.Manifest;
         import android.annotation.SuppressLint;
         import android.annotation.TargetApi;
         import android.content.Context;
@@ -35,7 +33,6 @@ package xyz.akshit.boostme;
         import java.util.Map;
 
 
-@SuppressWarnings("deprecation")
 public class CameraSource {
     @SuppressLint("InlinedApi")
     public static final int CAMERA_FACING_BACK = CameraInfo.CAMERA_FACING_BACK;
