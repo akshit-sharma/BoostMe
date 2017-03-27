@@ -36,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         initiateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                MainServerAsyncTask mainServerAsyncTask = new MainServerAsyncTask(MainActivity.this);
+                mainServerAsyncTask.execute();
+
                 Intent myIntent = new Intent(MainActivity.this, LocalSongsPlaylistActivity.class);
                 startActivity(myIntent);
             }
@@ -71,13 +75,20 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
 
                     Log.d(TAG, "Barcode read: " + barcode.displayValue);
+
+                    SharedDataStructure.hostIP = barcode.displayValue.split(",")[0];
+
+
+                    Intent myIntent = new Intent(MainActivity.this, LocalSongsPlaylistActivity.class);
+                    startActivity(myIntent);
+
                 } else {
-                    statusMessage.setText(R.string.barcode_failure);
+//                    statusMessage.setText(R.string.barcode_failure);
                     Log.d(TAG, "No barcode captured, intent data is null");
                 }
             } else {
-                statusMessage.setText(String.format(getString(R.string.barcode_error),
-                        CommonStatusCodes.getStatusCodeString(resultCode)));
+//                statusMessage.setText(String.format(getString(R.string.barcode_error),
+//                        CommonStatusCodes.getStatusCodeString(resultCode)));
             }
         }
         else {

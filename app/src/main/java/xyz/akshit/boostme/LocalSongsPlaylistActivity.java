@@ -1,9 +1,11 @@
 package xyz.akshit.boostme;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 
 import xyz.akshit.boostme.dummy.DummyContent;
 
@@ -28,6 +36,7 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
     Fragment listLocalSongs;
     FloatingActionButton fab;
     Button showOngoing;
+    ClientCodeRunner clientCodeRunner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +70,7 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
 //       songList.add(new Song(thisId, thisTitle, thisArtist));
 //                Log.d("who is ","id"+ thisId+" this Title " + thisTitle);
                 DummyContent dummyContent = new DummyContent();
-                dummyContent.addItem(new DummyContent.DummyItem(id,thisTitle,thisArtist));
+                dummyContent.addItem(new DummyContent.DummyItem(id,thisTitle,urlColomn));
 
 
             }
@@ -113,7 +122,87 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        // TODO
-        Log.d("LSPA","define onListFragmentInteraction");
+        String hostIP = SharedDataStructure.hostIP;
+        String songName = item.content;
+        String contentURI = item.details;
+
+        clientCodeRunner = new ClientCodeRunner(this, hostIP, 8080, songName, contentURI);
+        clientCodeRunner.execute();
+
     }
+
+    class ClientCodeRunner extends AsyncTask<Void, Void, Void> {
+
+        private String songName, contentURI;
+        private Context myContext;
+        private String host;
+        private int port;
+        int len;
+        Socket socket;
+        byte buf[];
+
+        ClientCodeRunner(Context myContext, String host, int port,
+                         String songName, String contentURI){
+            this.myContext = myContext;
+            this.host = host;
+            this.port = port;
+            this.songName = songName;
+            this.contentURI = contentURI;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            myContext = myContext.getApplicationContext();
+            int len;
+            socket = new Socket();
+            buf = new byte[1024];
+
+            try {
+                socket.bind(null);
+                socket.connect((new InetSocketAddress(host, port)), 500);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            if (socket != null) {
+                if (socket.isConnected()) {
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        //catch logic
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Log.d("MAinAct","Sending file");
+                OutputStream outputStream = socket.getOutputStream();
+                ContentResolver cr = myContext.getContentResolver();
+                String toSend = songName+","+contentURI;
+                byte[] sendBuffer = toSend.getBytes();
+                outputStream.write(sendBuffer);
+                outputStream.close();
+            } catch (FileNotFoundException e) {
+                //catch logic
+                e.printStackTrace();
+            } catch (IOException e) {
+                //catch logic
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 }

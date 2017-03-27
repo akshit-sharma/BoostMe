@@ -1,5 +1,6 @@
 package xyz.akshit.boostme.dummy;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,20 +27,20 @@ public class SharedDummyContent {
     private static final int COUNT = 10;
 
     static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }
+//        // Add some sample items.
+//        for (int i = 1; i <= COUNT; i++) {
+//            addItem(createDummyItem(i));
+//        }
     }
 
-    private static void addItem(SharedDummyItem item) {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
-    }
+//    private static void addItem(SharedDummyItem item) {
+//        ITEMS.add(item);
+//        ITEM_MAP.put(item.id, item);
+//    }
 
-    private static SharedDummyItem createDummyItem(int position) {
-        return new SharedDummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
-    }
+//    private static SharedDummyItem createDummyItem(int position) {
+//       // return new SharedDummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
+//    }
 
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
@@ -54,11 +55,11 @@ public class SharedDummyContent {
      * A dummy item representing a piece of content.
      */
     public static class SharedDummyItem {
-        public final String id;
+        public final InetAddress id;
         public final String content;
         public final String details;
 
-        public SharedDummyItem(String id, String content, String details) {
+        public SharedDummyItem(InetAddress id, String content, String details) {
             this.id = id;
             this.content = content;
             this.details = details;
