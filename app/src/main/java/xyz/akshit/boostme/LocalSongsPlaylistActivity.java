@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,6 +59,7 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
             int artistColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.ARTIST);
 
+            int fullpath =  musicCursor.getColumnIndex((MediaStore.Audio.Media.DATA));
             //add songs to list
 //            int thumbnail =  musicCursor.getColumnIndex(android.provider.MediaStore.Images.Thumbnails);
             do {
@@ -64,8 +67,8 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
                 String id  =   thisId+"";
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                String urlColomn = MediaStore.Audio.Media.getContentUri(musicCursor.getString(titleColumn)).toString();
-                Log.d("localSongs",urlColomn);
+                String urlColomn = musicCursor.getString(fullpath);
+//                Log.d("localSongs",urlColomn);
 //
 //       songList.add(new Song(thisId, thisTitle, thisArtist));
 //                Log.d("who is ","id"+ thisId+" this Title " + thisTitle);
@@ -121,13 +124,20 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
 
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(DummyContent.DummyItem item) throws IOException {
         String hostIP = SharedDataStructure.hostIP;
         String songName = item.content;
         String contentURI = item.details;
 
-        clientCodeRunner = new ClientCodeRunner(this, hostIP, 8080, songName, contentURI);
-        clientCodeRunner.execute();
+        Log.d("localPlaylistactivity", "ip  song name and uri"+hostIP +"  "+songName+"  "+contentURI );
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setDataSource(contentURI);
+        mediaPlayer.prepare();
+        mediaPlayer.start();
+
+//        clientCodeRunner = new ClientCodeRunner(this, hostIP, 8080, songName, contentURI);
+//        clientCodeRunner.execute();
 
     }
 

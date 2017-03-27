@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.List;
 
 import xyz.akshit.boostme.LocalSongsFragment.OnListFragmentInteractionListener;
@@ -45,7 +46,11 @@ public class MyLocalSongsRecyclerViewAdapter extends RecyclerView.Adapter<MyLoca
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    try {
+                        mListener.onListFragmentInteraction(holder.mItem);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
+
 import xyz.akshit.boostme.dummy.DummyContent;
 import xyz.akshit.boostme.dummy.DummyContent.DummyItem;
 
@@ -109,6 +111,6 @@ public class LocalSongsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(DummyItem item) throws IOException;
     }
 }

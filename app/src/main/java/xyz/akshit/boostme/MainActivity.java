@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 Intent intent = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
                 intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
                 startActivityForResult(intent, RC_BARCODE_CAPTURE);
-                Snackbar.make(rootView, "Goto scan QR here", Snackbar.LENGTH_SHORT).show();
-                //Show scanner here
+
+//                Snackbar.make(rootView, "Goto scan QR here", Snackbar.LENGTH_SHORT).show();
+
                 
             }
         });
