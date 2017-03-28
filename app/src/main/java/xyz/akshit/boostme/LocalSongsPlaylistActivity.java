@@ -176,7 +176,7 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) throws IOException {
 
-        String hostIP = "192.168.1.33";
+      String hostIP  = SharedDataStructure.hostIP;
         String songName = item.content;
         String contentURI = item.details;
         Log.d("localPlaylistactivity", "ip  song name and uri"+hostIP +"  "+songName+"  "+contentURI );
@@ -255,7 +255,7 @@ public class LocalSongsPlaylistActivity extends AppCompatActivity implements Loc
                 if (socket != null) {
                     if (socket.isConnected()) {
                         try {
-                            Log.d("song ", "send completed");
+                            Log.d("song ", "send_______ completed");
                             socket.close();
                         } catch (IOException e) {
                             //catch logic
