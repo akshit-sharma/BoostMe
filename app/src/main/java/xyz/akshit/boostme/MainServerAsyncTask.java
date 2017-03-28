@@ -22,23 +22,22 @@ import xyz.akshit.boostme.dummy.SharedDummyContent;
  * Created by akshi on 3/26/2017.
  */
 
-public class MainServerAsyncTask extends AsyncTask<Void, Void, String>
-                implements SmallServerAsyncTask.FileNameWithListener{
+public class MainServerAsyncTask extends AsyncTask<Void, Void, String> {
 
     private Context context;
-    private String file_name;
+//    private String file_name;
 
     public MainServerAsyncTask(Context context) {
         this.context = context;
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-        SmallServerAsyncTask ssat = new SmallServerAsyncTask(context, this);
-        ssat.execute();
-    }
+//    @Override
+//    protected void onPreExecute() {
+//        super.onPreExecute();
+//
+////        SmallServerAsyncTask ssat = new SmallServerAsyncTask(context, this);
+////        ssat.execute();
+//    }
 
     @Override
     protected String doInBackground(Void... params) {
@@ -56,7 +55,7 @@ public class MainServerAsyncTask extends AsyncTask<Void, Void, String>
              * Save the input stream from the client as a JPEG file
              */
             final File f = new File(Environment.getExternalStorageDirectory() + "/"
-                    + context.getPackageName() + "/song-db/" + file_name
+                    + context.getPackageName() + "/boostme" + System.currentTimeMillis()
                     + ".mp3");
 
             File dirs = new File(f.getParent());
@@ -106,16 +105,17 @@ public class MainServerAsyncTask extends AsyncTask<Void, Void, String>
     protected void onPostExecute(String result) {
         if (result != null) {
             Intent intent = new Intent();
+            Log.d("recieved ","File copied - " + result);
             intent.setAction(android.content.Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.parse("file://" + result), "image/*");
             context.startActivity(intent);
         }
     }
 
-    @Override
-    public void setFile_name(InetAddress address, String file_name, String contentURI) {
-        SharedDummyContent.SharedDummyItem item = new SharedDummyContent.SharedDummyItem(address, file_name, contentURI);
-        SharedDataStructure.addItem(item);
-    }
+//    @Override
+//    public void setFile_name(InetAddress address, String file_name, String contentURI) {
+//        SharedDummyContent.SharedDummyItem item = new SharedDummyContent.SharedDummyItem(address, file_name, contentURI);
+//        SharedDataStructure.addItem(item);
+//    }
 
 }
